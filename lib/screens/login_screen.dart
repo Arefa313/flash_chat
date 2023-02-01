@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flash_chat_starting_project/components/rounded_button.dart';
 
 import '/constants.dart';
@@ -29,23 +30,38 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(
               height: 48.0,
             ),
-            TextField(
+            TextFormField(
               decoration: kTextFieldDecoration.copyWith(
                 hintText: 'Enter your email',
+                labelText: 'Email',
               ),
+
               onChanged: (value) {
                 //Do something with the user input
+              },
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (email){
+                return email != null && EmailValidator.validate(email) ?
+                null : 'Pleas enter a valid email';
               },
             ),
             const SizedBox(
               height: 16,
             ),
-            TextField(
-              decoration:kTextFieldDecoration.copyWith(
-                hintText: 'Enter your password',
+            TextFormField(
+              decoration: kTextFieldDecoration.copyWith(
+                hintText: 'Enter your passsword',
+                labelText: 'password',
               ),
+              obscureText: true,
               onChanged: (value) {
                 //Do something with the user input
+              },
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (password){
+                return password != null && password.length > 5
+                    ? null
+                    : ' the password should be of 6 characters at least.';
               },
             ),
             const SizedBox(

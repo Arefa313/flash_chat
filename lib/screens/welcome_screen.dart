@@ -91,7 +91,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
               height: 48.0,
             ),
             RoundedBouton(
-                color: kLoginButtonColor, title: 'Log in',
+                color: kLoginButtonColor,
+                title: 'Log in',
                 onPressed: (){
                   Navigator.pushNamed(context, LoginScreen.id);
                 }
