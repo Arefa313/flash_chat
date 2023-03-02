@@ -39,9 +39,9 @@ class _ChatScreenState extends State<ChatScreen> {
           IconButton(
               icon: const Icon(Icons.logout),
               onPressed: () {
-            // Navigator.pop(context);
-            //    AuthService().signOut();
-                messageStream();
+            Navigator.pop(context);
+               AuthService().signOut();
+
               }),
         ],
         title: const Text('⚡ ️Chat'),
@@ -51,6 +51,35 @@ class _ChatScreenState extends State<ChatScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            StreamBuilder<QuerySnapshot>(
+              stream:_fireStore.collection('messages').snapshots(),
+                builder: (context, snapshot){
+                if(snapshot.connectionState == ConnectionState.waiting){
+                  return const Expanded(
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.lightBlue,
+                         ),));
+                }
+                if(snapshot.hasData){
+                  var messages = snapshot.data!.docs;
+                  List<Text> messageWidgets = [];
+                  for(var message in messages){
+                    var messageText = message.get('text');
+                    var sender = message.get('sender');
+                    Text messageWidget = Text('$messageText from $sender');
+                    messageWidgets.add(messageWidget);
+                  }
+                  return Column(
+                    children: messageWidgets,
+                  );
+                }else{
+                  return Center(child: Text(
+                    'snapShot has not data',
+                  ));
+                }
+                },
+            ),
             Container(
               decoration: kMessageContainerDecoration,
               child: Row(
