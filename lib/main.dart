@@ -38,7 +38,8 @@ class FlashChat extends StatelessWidget {
             RegistrationScreen.id : (context) => RegistrationScreen(),
             ChatScreen.id:(context) => ChatScreen(),
           },
-          initialRoute: AuthService().getCurrentUser != null ? ChatScreen.id : WelcomeScreen.id,
+         home: AuthService().getCurrentUser != null ?
+         ChatScreen() : WelcomeScreen(),
 
         );
       }
